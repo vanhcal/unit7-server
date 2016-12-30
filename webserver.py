@@ -48,18 +48,18 @@ class webserverHandler(BaseHTTPRequestHandler):
 
 			except:
 
-def main():
-	try:
-		port = 8080
-		server = HTTPServer(('', port), webserverHandler)
-		print "Web server running on port %s" % port
-		#keep the server constantly listening until you call cntrl+c or exit the application
-		server.serve_forever()
+	def main():
+		try:
+			port = 8080
+			server = HTTPServer(('', port), webserverHandler)
+			print "Web server running on port %s" % port
+			#keep the server constantly listening until you call cntrl+c or exit the application
+			server.serve_forever()
 
-	# exit out of the method when there is a keyboard interrupt (ctrl + c)
-	except KeyboardInterrupt:
-		print "^C entered, stopping web server..."
-		server.socket.close()
+		# exit out of the method when there is a keyboard interrupt (ctrl + c)
+		except KeyboardInterrupt:
+			print "^C entered, stopping web server..."
+			server.socket.close()
 
 if __name__ == '__main__':
 	main()
