@@ -74,12 +74,30 @@ class webserverHandler(BaseHTTPRequestHandler):
 					# link to the edit page for a restaurant if user is trying to edit a restaurant
 					output += "<a href = '/restaurants/%s/edit'> Edit </a>"
 					output += "</br>"
-					output += "<a href = '#'> Delete </a>"
+					# link the Delete function to the delete page
+					output += "<a href = '/restaurants/%s/delete'> Delete </a>"
 
 				output += "<body></html>"
 				# write the output to w file
 				self.wfile.write(output)
 				return
+
+			if self.path.endswith("/delete"):
+				restaurantIDPath = self.path.split("/")[2]
+
+				myRestaurantQuery = session.query(Restaurant).filter_by(id = restaurantIDPath).one()
+				if myRestaurantQuery != []:
+					self.send_response(200) 
+					self.send_header('Content-type', 'text/html')
+					self.end_headers()
+					output = ""
+					output = "<html><body>"
+					output = "<h1>Are you sure you want to delete %s?" % myRestaurantQuery.name
+					output += "<form method='POST' enctype = 'multipart/form-data' action = '/restaurants/%s/delete'>" % restaurantIDPath
+					output += "<input type = 'submit' value='Delete'"
+					output += "</form>"
+					output += "</body></html>"
+					self.wfile.write(output)
 
 			# look for a url that ends with /hello
 			if self.path.endswith("/hello"):
@@ -108,7 +126,7 @@ class webserverHandler(BaseHTTPRequestHandler):
 				output = ""
 				# add a link that goes back to the hello page
 				output += "<html><body>"
-				output += "&#161Hola <a href='/hello' >Back to Hello</a>"
+				output += "&#161Hola <a href='/hello'> Back to Hello</a>"
 				output += "<form method='POST' enctype='multipart/form-data' action='/hello'><h2>What would you like me to say?</h2><input name='message' type='text' ><input type='submit' value='Submit'></form>"
 				output += "</body></html>"
 				self.wfile.write(output)
@@ -121,6 +139,21 @@ class webserverHandler(BaseHTTPRequestHandler):
 		# display responses other than hola and hello
 		def do_POST(self):
 			try:
+				if self.path.endswith("/delete"):
+					ctype, pdict = cgi.parse_header(self.headers.getheader('content-type'))
+
+					restaurantIDPath = self.path.split("/")[2]
+
+					myRestaurantQuery = session.query(Restaurant).filter_by(id = restaurantIDPath).one()
+
+					if myRestaurantQuery != []:
+						session.delete(myRestaurantQuery)
+						session.commit()
+						self.send_response(301)
+						self.send_header('Content-type', 'text/html')
+						self.send_header('Location', '/restaurants')
+						self.end_headers()
+
 				if self.path.endswith("/edit"):
 					ctype, pdict = cgi.parse_header(self.headers.getheader('content-type'))
 					if ctype == 'multipart/form-data':
