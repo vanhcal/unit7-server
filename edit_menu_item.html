@@ -1,0 +1,14 @@
+<html><body>
+<h1> Edit Menu Item </h1>
+
+<!--call edit menu function, with the appropriate parameters-->
+<form action = "{{ url_for('editMenuItem', restaurant_id = restaurant_id, menu_id = i.id)}}" method = 'post'>
+	<!--prompt for name of new menu item, and create input field. using placeholder function in html, we can have that field already filled out with the name of item to edit-->
+	<p>Name:</p>
+	<input type = 'text' size='30' name='name' placeholder='{{i.name}}'>
+<!--button to edit-->
+<input type = 'submit' value='Edit'>
+<!--create link to cancel-->
+<a href= '{{url_for('restaurantMenu', restaurant_id= item.restaurant_id)}}'> Cancel</a>
+</body>
+</html>

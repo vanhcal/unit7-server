@@ -26,6 +26,17 @@ class MenuItem(Base):
     restaurant_id = Column(Integer, ForeignKey('restaurant.id'))
     restaurant = relationship(Restaurant)
 
+# figure out what public data we want to send via api, and put it in format flask can easily use
+@property
+def serialize(self):
+    return {
+        'name': self.name,
+        'description': self.description,
+        'id': self.id,
+        'price': self.price,
+        'course': self.course,
+    }
+
 
 engine = create_engine('sqlite:///restaurantmenu.db')
 

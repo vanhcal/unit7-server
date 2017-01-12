@@ -1,21 +1,71 @@
 <html>
+<head>
+	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
+	</head>
 	<body>
-		<h1> {{ restaurant.name }} </h1>
+	<div class = 'pane'>
+		<div class = 'header'>
+		<h1>{{ restaurant.name }}</h1>
+	</div>
 
+	<a href = '{{url_for('newMenuItem', restaurant_id = restaurant.id) }}'>Create New Item</a>
+
+<!--handle flashed message; get_flashed_messages returns array of messages; with is a python construct-->
+<div class = 'flash'>
+		      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+          
+        <ul>
+        {% for message in messages %}
+            <li> <strong> {{ message }} </strong> </li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+    {% endwith %}
+
+</div>
+
+		<!--logical code which obtains the results of a query-->
 		{% for i in items %}
+    <div class = 'nameAndPrice'>
+		<span class = 'name'><p>{{i.name}}</p></span>
 
-		{{i.name}}
-	</br>
+		<span class = 'price'>
 
-		{{i.description}}
+		<!--printed code which executes the ouput (double brackets)-->
+		<p>{{i.price}} </p>
+	</span>
+	</div>
 
-	</br>
+	
+	
+	<div class = 'description'>
+		<p>{{i.description}}</p>
+	</div>
 
-		{{i.price}}
+	
+	
+	<div class = "editdeletepane">
+		<!--This is a method in Python but we want the output printed into our html document, so enclose in double brackets-->
+	<a href='{{url_for('editMenuItem',restaurant_id = restaurant.id, menu_id=i.id)}}' >Edit</a>
+	<a href='{{url_for('deleteMenuItem', restaurant_id = restaurant.id, menu_id=i.id)}}' >
+	Delete</a>
+	</div>
 
-	</br>
 
+
+		<!--endfor and endif are used to indicate the ends of loops in html-->
 		{% endfor %}
 
-	</body>body>
+
+		
+		
+
+</div>
+</div>
+	</body>
+
+
+
+
 </html>
