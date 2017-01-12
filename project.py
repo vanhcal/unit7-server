@@ -31,6 +31,18 @@ def restaurantMenu(restaurant_id):
 		output += '</br>'
 	return output
 
+@app.route('/restaurant/<int:restaurant_id>/new/')
+def newMenuItem(restaurant_id):
+	return "page to create a new menu item. Task 1 complete!"
+
+@app.route('/restaurant/<int:restaurant_id>/<int:menu_id>/edit/')
+def editMenuItem(restaurant_id, menu_id):
+	return "page to edit a new menu item. Task 2 complete!"
+
+@app.route('/restaurant/<int:restaurant_id>/<int:menu_id>/delete/')
+def deleteMenuItem(restaurant_id, menu_id):
+	return "page to delete a new menu item. Task 3 complete!"
+
 # restaurant_id will be passed in as the id for the new restaurant
 @app.route('/restaurant/<int:restaurant_id>/new/')
 def newMenuItem(restaurant_id):
