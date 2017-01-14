@@ -94,8 +94,8 @@ def newMenuItem(restaurant_id):
 # the application run by the python interpreter is named main
 # imported python files get __name of file__
 # if you're running from python interpreter, run this function; if you're importing, don't do this function
-if __name__ == '__main__'
+	if __name__ == '__main__':
 	# create a secret key which flask will use to create sessions for our users; usually you'd want a more secure password than this
-	app.secret_key = 'super_secret_key'
-	app.debug = True
-	app.run(host = '0.0.0.0', port = 5000)
+		app.secret_key = 'super_secret_key'
+		app.debug = True
+		app.run(host = '0.0.0.0', port = 5000)
